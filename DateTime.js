@@ -380,9 +380,7 @@ var Datetime = React.createClass({
 			children = []
 		;
 
-		var style = {
-			background: 'red'
-		};
+		var style = this.props.style || {};
 
 		if ( this.props.input ){
 			children = [ DOM.input( assign({
