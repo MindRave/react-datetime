@@ -316,10 +316,12 @@ var Datetime = React.createClass({
 		this.props.onChange( date );
 	},
 
-	openCalendar: function() {
-		if (!this.state.open) {
+	openCalendar: function( e ) {
+    var target = e.target === null ? e : e.target;
+
+    if (!this.state.open) {
 			this.setState({ open: true }, function() {
-				this.props.onFocus();
+				this.props.onFocus( target );
 			});
 		}
 	},
