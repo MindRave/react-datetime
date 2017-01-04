@@ -380,6 +380,10 @@ var Datetime = React.createClass({
 			children = []
 		;
 
+		var style = {
+			background: 'red'
+		};
+
 		if ( this.props.input ){
 			children = [ DOM.input( assign({
 				key: 'i',
@@ -399,7 +403,7 @@ var Datetime = React.createClass({
 
 		return DOM.div({className: className}, children.concat(
 			DOM.div(
-				{ key: 'dt', className: 'rdtPicker' },
+				{ key: 'dt', className: 'rdtPicker', style: style },
 				React.createElement( Component, this.getComponentProps())
 			)
 		));
