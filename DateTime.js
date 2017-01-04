@@ -62,7 +62,6 @@ var Datetime = React.createClass({
 	},
 
 	componentDidMount: function () {
-    this.getCoordinates();
     [].forEach.call(document.querySelectorAll('.stepCard__body'), function(element) {
       element.addEventListener('scroll', function() { this.state.open === true && this.closeCalendar(); }.bind(this));
     }.bind(this));
@@ -325,6 +324,7 @@ var Datetime = React.createClass({
 	},
 
 	openCalendar: function() {
+    this.getCoordinates();
     if (!this.state.open) {
 			this.setState({ open: true }, function() {
 				this.props.onFocus();
