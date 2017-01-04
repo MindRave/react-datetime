@@ -409,7 +409,7 @@ var Datetime = React.createClass({
 				value: this.state.inputValue
 			}, this.props.inputProps ));
 			children = [ input ];
-      style = { top: this.state.component.top - 100, left: this.state.component.left - 365 };
+      style = this.state.component ? { top: this.state.component.top - 100, left: this.state.component.left - 365 } : {};
 		} else {
 			className += ' rdtStatic';
 		}
