@@ -327,6 +327,9 @@ var Datetime = React.createClass({
 	},
 
 	closeCalendar: function() {
+    /*eslint-disable */
+    console.log('close cal');
+    /*eslint-enable */
 		this.setState({ open: false }, function () {
 			this.props.onBlur( this.state.selectedDate || this.state.inputValue );
 		});
