@@ -61,6 +61,13 @@ var Datetime = React.createClass({
 		};
 	},
 
+	componentDidMount: function () {
+    this.getCoordinates();
+    [].forEach.call(document.querySelectorAll('.stepCard__body'), function(element) {
+      element.addEventListener('scroll', function() { this.state.open === true && this.closeCalendar(); }.bind(this));
+    }.bind(this));
+	},
+
 	getInitialState: function() {
 		var state = this.getStateFromProps( this.props );
 
@@ -106,7 +113,8 @@ var Datetime = React.createClass({
 			viewDate: viewDate,
 			selectedDate: selectedDate,
 			inputValue: inputValue,
-			open: props.open
+			open: props.open,
+			component: false
 		};
 	},
 
@@ -316,20 +324,15 @@ var Datetime = React.createClass({
 		this.props.onChange( date );
 	},
 
-	openCalendar: function( e ) {
-    var target = e.target === null ? e : e.target;
-
+	openCalendar: function() {
     if (!this.state.open) {
 			this.setState({ open: true }, function() {
-				this.props.onFocus( target );
+				this.props.onFocus();
 			});
 		}
 	},
 
 	closeCalendar: function() {
-    /*eslint-disable */
-    console.log('close cal');
-    /*eslint-enable */
 		this.setState({ open: false }, function () {
 			this.props.onBlur( this.state.selectedDate || this.state.inputValue );
 		});
@@ -376,6 +379,12 @@ var Datetime = React.createClass({
 		return props;
 	},
 
+  getCoordinates: function () {
+    if (this.props.input) {
+      this.setState({ component: this.inputRef.getBoundingClientRect() });
+    }
+  },
+
 	render: function() {
 		var Component = this.viewComponents[ this.state.currentView ],
 			DOM = React.DOM,
@@ -385,18 +394,22 @@ var Datetime = React.createClass({
 			children = []
 		;
 
-		var style = this.props.style || {};
-
-		if ( this.props.input ){
-			children = [ DOM.input( assign({
+    var style;
+		if ( this.props.input ) {
+      var input = DOM.input( assign({
 				key: 'i',
-				type:'text',
+        ref: function(ref){
+          this.inputRef = ref;
+        }.bind(this),
+				type: 'text',
 				className: 'form-control',
 				onFocus: this.openCalendar,
 				onChange: this.onInputChange,
 				onKeyDown: this.onInputKey,
 				value: this.state.inputValue
-			}, this.props.inputProps ))];
+			}, this.props.inputProps ));
+			children = [ input ];
+      style = { top: this.state.component.top - 100, left: this.state.component.left - 365 };
 		} else {
 			className += ' rdtStatic';
 		}
